@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Car } from '../domain/car';
+import {BelData} from "../domain/belData";
 
 @Injectable()
-export class CarService {
+export class DataService {
 
     constructor(private http: HttpClient) {}
 
-    getCarsSmall() {
-        return this.http.get<any>('assets/data/cars-small.json')
+    getBelDatas() {
+        return this.http.get<any>('assets/data/datas.json')
             .toPromise()
-            .then(res => <Car[]> res.data)
+            .then(res => <BelData[]> res.data)
             .then(data => data);
     }
 }

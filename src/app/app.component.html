@@ -1,44 +1,66 @@
-<p-table [columns]="cols" [value]="cars" selectionMode="single" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="10">
+<div class="p-field p-grid" style="display: flex;">
+    <label for="aa" class="p-col-fixed" style="width:100px">Yılı</label>
+    <div class="p-col">
+        <p-dropdown #d1 placeholder="Yılı Seçin" [options]="years" [(ngModel)]="selectedYear" [filter]="true" optionLabel="year"></p-dropdown>
+    </div>
+</div>
+<div class="p-field p-grid" style="display: flex;">
+    <label for="bb" class="p-col-fixed" style="width:100px">Mahalle Adı</label>
+    <div class="p-col">
+        <p-dropdown #d2 placeholder="Mahalle Seçin" [options]="mahalleNames" [(ngModel)]="selectedMahalle" [filter]="true" optionLabel="name"></p-dropdown>
+    </div>
+</div>
+<div class="p-field p-grid" style="display: flex;">
+    <label for="cc" class="p-col-fixed" style="width:100px">Cadde Sokak Adı</label>
+    <div class="p-col">
+        <p-dropdown #d3 placeholder="Cadde
+s
+eçin" [options]="caddeNames" [(ngModel)]="selectedCadde" [filter]="true" optionLabel="name"></p-dropdown>
+    </div>
+</div>
+
+
+
+<p-captcha siteKey="6Lf2XQkTAAAAANcvOwYqPxWL4iZDksFqHpS39GDA" (onResponse)="showResponse($event)"></p-captcha>
+
+<p-button label="Gönder" (click)="sendButton()"></p-button>
+<p-button label="Temizle" ></p-button>
+<p-button label="Yazdır" ></p-button>
+<div *ngIf="tableVisible" >
+<p-table #dt [columns]="belCols" [value]="belDatas" selectionMode="single" [resizableColumns]="true" [(selection)]="selectedData" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="5">
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+            <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button>
+            <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+            <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+            <button type="button" pButton icon="pi pi-file" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
+        </div>
+        <div style="text-align: right">
+            <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="Tüm Alanlarda Ara" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        </div>
+    </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns">
+            <th *ngFor="let col of columns" pResizableColumn>
                 {{col.header}}
+            </th>
+        </tr>
+        <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <input style="display: inherit; width: -webkit-fill-available;" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
+
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
-            <td *ngFor="let col of columns">
+            <td *ngFor="let col of columns" class="ui-resizable-column">
                 {{rowData[col.field]}}
             </td>
         </tr>
     </ng-template>
 
-    <ng-template pTemplate="summary" let-rowData>
-        <div style="text-align:left">
-            <button type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd()" label="Add"></button>
-        </div>
-    </ng-template>
 </p-table>
+</div>
 
-<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [closable]="true" [style]="{'width':'300px'}">
-    <div class="ui-g ui-fluid" *ngIf="car">
-        <div class="ui-g-4"><label for="vin">Vin</label></div>
-        <div class="ui-g-8"><input pInputText id="vin" [(ngModel)]="car.vin" /></div>
-        
-        <div class="ui-g-4"><label for="year">Year</label></div>
-        <div class="ui-g-8"><input pInputText id="year" [(ngModel)]="car.year" /></div>
-        
-        <div class="ui-g-4"><label for="brand">Brand</label></div>
-        <div class="ui-g-8"><input pInputText id="brand" [(ngModel)]="car.brand" /></div>
-        
-        <div class="ui-g-4"><label for="color">Color</label></div>
-        <div class="ui-g-8"><input pInputText id="color" [(ngModel)]="car.color" /></div>
-    </div>
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button type="button" pButton icon="pi pi-times" (click)="delete()" label="Delete"></button>
-            <button type="button" pButton icon="pi pi-check" (click)="save()" label="Save"></button>
-        </div>
-    </p-footer>
-</p-dialog>
