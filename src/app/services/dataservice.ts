@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {BelData} from "../domain/belData";
+import {BelData} from '../domain/belData';
 
 @Injectable()
 export class DataService {

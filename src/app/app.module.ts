@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -10,6 +10,10 @@ import { DialogModule } from 'primeng/dialog';
 import {DropdownModule} from 'primeng/dropdown';
 import { AppComponent } from './app.component';
 import {CaptchaModule} from 'primeng/captcha';
+import {ToastModule} from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import {MessageService} from 'primeng';
 
 @NgModule({
     declarations: [
@@ -25,9 +29,13 @@ import {CaptchaModule} from 'primeng/captcha';
         DialogModule,
         ButtonModule,
         DropdownModule,
-        CaptchaModule
+        CaptchaModule,
+        ToastModule,
+        MessagesModule,
+        MessageModule,
+        ReactiveFormsModule,
     ],
-    providers: [],
+    providers: [MessageService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

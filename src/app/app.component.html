@@ -1,39 +1,47 @@
+<p-toast></p-toast>
+<form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+    <div class="p-fluid forms-grid" style="margin: 1em 0">
 <div class="p-field p-grid" style="display: flex;">
-    <label for="aa" class="p-col-fixed" style="width:100px">Yılı</label>
+    <label class="p-col-fixed" style="width:100px">Yılı</label>
     <div class="p-col">
-        <p-dropdown #d1 placeholder="Yılı Seçin" [options]="years" [(ngModel)]="selectedYear" [filter]="true" optionLabel="year"></p-dropdown>
+        <p-dropdown #d1 formControlName="year" placeholder="Yılı Seçin" (onChange)="yearChanged()" [options]="years" [(ngModel)]="selectedYear" [filter]="true" optionLabel="year"></p-dropdown>
+        <p-message severity="error" text="Firstname is required" *ngIf="!userform.controls['year'].valid&&userform.controls['year'].dirty"></p-message>
     </div>
 </div>
 <div class="p-field p-grid" style="display: flex;">
-    <label for="bb" class="p-col-fixed" style="width:100px">Mahalle Adı</label>
+    <label class="p-col-fixed" style="width:100px">Mahalle Adı</label>
     <div class="p-col">
-        <p-dropdown #d2 placeholder="Mahalle Seçin" [options]="mahalleNames" [(ngModel)]="selectedMahalle" [filter]="true" optionLabel="name"></p-dropdown>
+        <p-dropdown #d2 formControlName="mahalle" placeholder="-" (onChange)="mahalleChanged()" [options]="mahalleNames" [(ngModel)]="selectedMahalle" [filter]="true" optionLabel="name"></p-dropdown>
+        <p-message severity="error" text="Mahalle seçmelisiniz" *ngIf="!userform.controls['mahalle'].valid&&userform.controls['mahalle'].dirty"></p-message>
     </div>
 </div>
 <div class="p-field p-grid" style="display: flex;">
-    <label for="cc" class="p-col-fixed" style="width:100px">Cadde Sokak Adı</label>
+    <label class="p-col-fixed" style="width:100px">Cadde Sokak Adı</label>
     <div class="p-col">
-        <p-dropdown #d3 placeholder="Cadde
-s
-eçin" [options]="caddeNames" [(ngModel)]="selectedCadde" [filter]="true" optionLabel="name"></p-dropdown>
-    </div>
-</div>
+        <p-dropdown #d3 formControlName="cadde" placeholder="-" [options]="caddeNames" [(ngModel)]="selectedCadde" [filter]="true" optionLabel="name"></p-dropdown>
+        <p-message severity="error" text="Cadde seçmelisiniz" *ngIf="!userform.controls['cadde'].valid&&userform.controls['cadde'].dirty"></p-message>
 
+    </div>
+</div>
+    <!--<div>
+        <button pButton type="submit" label="Submit" ></button>
+        <p-button label="Temizle" (click)="clearDatas();"></p-button>
+        <p-button label="Yazdır" (click)="print();"></p-button>
+    </div>-->
+    </div>
+</form>
 
 
 <p-captcha siteKey="6Lf2XQkTAAAAANcvOwYqPxWL4iZDksFqHpS39GDA" (onResponse)="showResponse($event)"></p-captcha>
 
-<p-button label="Gönder" (click)="sendButton()"></p-button>
-<p-button label="Temizle" ></p-button>
-<p-button label="Yazdır" ></p-button>
-<div *ngIf="tableVisible" >
+<p-button label="Gönder" (click)="onSubmit(userform.value)"></p-button>
+<p-button label="Temizle" (click)="clearDatas();"></p-button>
+<p-button label="Yazdır" (click)="print();"></p-button>
+<div  id="dataTable" *ngIf="tableVisible">
 <p-table #dt [columns]="belCols" [value]="belDatas" selectionMode="single" [resizableColumns]="true" [(selection)]="selectedData" (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="5">
     <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix" style="text-align: left">
-            <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button>
             <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
-            <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
-            <button type="button" pButton icon="pi pi-file" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
         </div>
         <div style="text-align: right">
             <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
