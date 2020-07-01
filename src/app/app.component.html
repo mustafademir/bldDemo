@@ -5,21 +5,21 @@
     <label class="p-col-fixed" style="width:100px">Yılı</label>
     <div class="p-col">
         <p-dropdown #d1 formControlName="year" placeholder="Yılı Seçin" (onChange)="yearChanged()" [options]="years" [(ngModel)]="selectedYear" [filter]="true" optionLabel="year"></p-dropdown>
-        <p-message severity="error" text="Firstname is required" *ngIf="!userform.controls['year'].valid&&userform.controls['year'].dirty"></p-message>
+<!--        <p-message severity="error" text="Firstname is required" *ngIf="!userform.controls['year'].valid&&userform.controls['year'].dirty"></p-message>-->
     </div>
 </div>
 <div class="p-field p-grid" style="display: flex;">
     <label class="p-col-fixed" style="width:100px">Mahalle Adı</label>
     <div class="p-col">
         <p-dropdown #d2 formControlName="mahalle" placeholder="-" (onChange)="mahalleChanged()" [options]="mahalleNames" [(ngModel)]="selectedMahalle" [filter]="true" optionLabel="name"></p-dropdown>
-        <p-message severity="error" text="Mahalle seçmelisiniz" *ngIf="!userform.controls['mahalle'].valid&&userform.controls['mahalle'].dirty"></p-message>
+<!--        <p-message severity="error" text="Mahalle seçmelisiniz" *ngIf="!userform.controls['mahalle'].valid&&userform.controls['mahalle'].dirty"></p-message>-->
     </div>
 </div>
 <div class="p-field p-grid" style="display: flex;">
     <label class="p-col-fixed" style="width:100px">Cadde Sokak Adı</label>
     <div class="p-col">
         <p-dropdown #d3 formControlName="cadde" placeholder="-" [options]="caddeNames" [(ngModel)]="selectedCadde" [filter]="true" optionLabel="name"></p-dropdown>
-        <p-message severity="error" text="Cadde seçmelisiniz" *ngIf="!userform.controls['cadde'].valid&&userform.controls['cadde'].dirty"></p-message>
+<!--        <p-message severity="error" text="Cadde seçmelisiniz" *ngIf="!userform.controls['cadde'].valid&&userform.controls['cadde'].dirty"></p-message>-->
 
     </div>
 </div>

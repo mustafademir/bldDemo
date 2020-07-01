@@ -22,6 +22,7 @@ interface Year {
 interface CommonDropDown {
     name: string;
 }
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit {
 
     displayDialog: boolean;
 
-    belDatas: BelData[];
+    belDatas: BelData[] = [];
 
     selectedData: BelData;
     selectedCity2: City;
@@ -48,7 +49,7 @@ export class AppComponent implements OnInit {
 
     selectedName: string;
 
-    selectedYear = 2000;
+    selectedYear: Year;
 
     yearFilter: number;
 
@@ -73,6 +74,7 @@ export class AppComponent implements OnInit {
     constructor(private dataService: DataService,
                 private messageService: MessageService,
                 private fb: FormBuilder) {
+        this.selectedYear = {year: 2000};
         this.years = [{year: 1997},{year: 1998},{year: 1999},{year: 2000},{year: 2001},{year: 2002},{year: 2004},{year: 2005},{year: 2006}];
     }
 
@@ -160,7 +162,7 @@ export class AppComponent implements OnInit {
     }
 
     clearDatas() {
-        this.selectedYear = 2000;
+        this.selectedYear = {year: 2000};
 
         this.selectedMahalle = '';
 
@@ -183,9 +185,19 @@ export class AppComponent implements OnInit {
 
     onSubmit(value: string) {
         this.submitted = true;
-        if (isUndefined(this.mahalleNames) || isUndefined(this.caddeNames) || isUndefined(this.selectedCadde)) {
+        if (isUndefined(this.mahalleNames) || isUndefined(this.caddeNames) || isUndefined(this.selectedCadde)
+        ||  this.selectedMahalle === '' || this.selectedCadde === '') {
             this.messageService.add({severity:'warn', summary:'Hata', detail:'Mahalle ve Cadde Seçmelisiniz'});
         } else {
+            this.belDatas = [];
+            this.dataService.getBelDatas().then(belData => {
+                belData.forEach( data => {
+                    console.log(data.yil + " ++ " + this.selectedYear.year);
+                   if (Number(data.yil) ==  this.selectedYear.year) {
+                       this.belDatas.push(data);
+                   }
+                });
+            });
             this.tableVisible = true;
         }
     }
